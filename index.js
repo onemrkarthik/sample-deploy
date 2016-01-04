@@ -11,5 +11,8 @@ app.get('/', function(request, response) {
     });
 });
 
-app.listen(8080);
-console.log('App listening on port %d', 8080);
+
+app.listen(process.env.PORT || 3000);
+console.log('App listening on port %d', process.env.PORT || 3000);
+
+
