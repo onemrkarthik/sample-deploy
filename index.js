@@ -6,7 +6,8 @@ app.get('/', function(request, response) {
     response.setHeader('Content-Type', 'application/json');
     response.send({
         title: 'fizzbuzz',
-        subtitle: 'foobar'
+        subtitle: 'foobar',
+        name: 'curry'
     });
 });
 
