@@ -5,7 +5,8 @@ var app = express();
 app.get('/', function(request, response) {
     response.setHeader('Content-Type', 'application/json');
     response.send({
-        title: 'fizzbuzz'
+        title: 'fizzbuzz',
+        subtitle: 'foobar'
     });
 });
 
