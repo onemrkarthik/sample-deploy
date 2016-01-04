@@ -12,7 +12,7 @@ app.get('/', function(request, response) {
 });
 
 
-app.listen(process.env.PORT || 3000);
-console.log('App listening on port %d', process.env.PORT || 3000);
+app.listen(3000);
+console.log('App listening on port %d', 3000);
 
 
