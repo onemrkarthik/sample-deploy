@@ -11,8 +11,11 @@ app.get('/', function(request, response) {
     });
 });
 
-
+console.log('---------------------------');
+console.log('---------------------------');
+console.log('---------------------------');
 app.listen(3000);
 console.log('App listening on port %d', 3000);
+console.log('---------------------------');
 
 
