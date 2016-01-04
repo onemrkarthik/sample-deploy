@@ -4,7 +4,7 @@
   "description": "sample deploy",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node bootstrap.js"
   },
   "author": "me",
   "license": "ISC",
