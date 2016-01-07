@@ -1,0 +1,26 @@
+{
+  "apps" : [{
+        // Application #1
+        "name"        : "jukwaa-app",
+        "script"      : "index.js",
+        "merge_logs"  : false,
+        "cwd"         : "./",
+        "env": {
+          "NODE_ENV": "dev"
+        },
+        "env_production" : {
+           "NODE_ENV": "production"
+        },
+        "env_staging" : {
+           "NODE_ENV" : "staging"
+        },
+        "instances"  : 4,
+        "exec_mode"  : "cluster_mode",
+        "error_file" : "./pm2-logs/child-err.log",
+        "out_file"   : "./pm2-logs/child-out.log",
+        "pid_file"   : "./pm2-logs/child.pid",
+        "log_date_format"  : "YYYY-MM-DD HH:mm Z",
+        "autorestart": true,
+        "max_memory_restart": "500M"
+    }]
+}
