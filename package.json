@@ -1,21 +1,29 @@
 {
-    "name": "sample-deploy",
-    "version": "1.0.0",
-    "description": "sample deploy",
-    "main": "index.js",
-    "scripts": {
-      "start": "node bootstrap.js",
-      "pre-push-script": "./gitPrePush.sh"
-    },
-    "author": "me",
-    "license": "ISC",
-    "dependencies": {
-        "express": "^4.13.3",
-        "pm2": "^0.15.10"
-    },
-    "devDependencies": {
-        "pre-push": "^0.1.1"
-    },
-
-    "pre-push": ["pre-push-script"]
+  "name": "sample-deploy",
+  "version": "1.0.0",
+  "description": "sample deploy",
+  "main": "index.js",
+  "scripts": {
+    "start": "node bootstrap.js",
+    "pre-push-script": "./gitPrePush.sh",
+    "commit": "commit-wizard"
+  },
+  "author": "me",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.3",
+    "pm2": "^0.15.10"
+  },
+  "devDependencies": {
+    "pre-git": "^3.4.1"
+  },
+  "config": {
+    "pre-git": {
+      "commit-msg": "conventional",
+      "pre-commit": [],
+      "pre-push": ["./gitPrePush.sh"],
+      "post-commit": [],
+      "post-merge": []
+    }
+  }
 }
