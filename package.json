@@ -17,8 +17,5 @@
         "pre-push": "^0.1.1"
     },
 
-    "pre-push": {
-        "run": ["pre-push-script"]
-    }
-
+    "pre-push": ["pre-push-script"]
 }
