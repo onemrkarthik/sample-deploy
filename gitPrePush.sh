@@ -42,11 +42,36 @@ function parse_commit_message() {
     git log -1 HEAD --pretty=format:%s 2> /dev/null
 }
 
+function parse_user_name() {
+    git log -1 --format=format:%an HEAD 2> /dev/null
+}
+
+function parse_user_email() {
+    git log -1 --format=format:%ae HEAD 2> /dev/null
+}
+
 # DEMO
 GIT_BRANCH=$(parse_git_branch)$(parse_git_hash)
 GIT_COMMIT_MESSAGE=$(parse_commit_message)
+GIT_COMMIT_USER_NAME=$(parse_user_name)
+GIT_COMMIT_USER_EMAIL=$(parse_user_email)
+
 echo ${GIT_BRANCH}
 echo ${GIT_COMMIT_MESSAGE}
+echo ${GIT_COMMIT_USER_NAME}
+echo ${GIT_COMMIT_USER_EMAIL}
+
+commit=grep 'Reviewed By' $GIT_COMMIT_MESSAGE 2> /dev/null
+
+echo $commit
+
+# Check for WIP commit
+# 		commit=`git rev-list -n 1 --grep '^WIP' "$range"`
+# 		if [ -n "$commit" ]
+# 		then
+# 			echo >&2 "Found WIP commit in $local_ref, not pushing"
+# 			exit 1
+# 		fi
 
 # z40=0000000000000000000000000000000000000000
 #
