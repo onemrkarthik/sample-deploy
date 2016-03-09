@@ -56,21 +56,17 @@ GIT_COMMIT_MESSAGE=$(parse_commit_message)
 GIT_COMMIT_USER_NAME=$(parse_user_name)
 GIT_COMMIT_USER_EMAIL=$(parse_user_email)
 
-echo ${GIT_BRANCH}
-echo ${GIT_COMMIT_MESSAGE}
 echo ${GIT_COMMIT_USER_NAME}
 echo ${GIT_COMMIT_USER_EMAIL}
 
 commit=grep 'Reviewed By' $GIT_COMMIT_MESSAGE 2> /dev/null
-
-echo $commit
 
 # Check for WIP commit
 if [ -n "$commit" ]
 then
 	exit 0
 else
-    echo >&2 "No reviewer found for commit $GIT_BRANCH, not pushing"
+    echo >&2 "No reviewer found for commit $GIT_BRANCH, $GIT_COMMIT_USER_NAME! Not pushing !"
     exit 1
 fi
 
