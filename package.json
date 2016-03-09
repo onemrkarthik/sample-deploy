@@ -1,15 +1,24 @@
 {
-  "name": "sample-deploy",
-  "version": "1.0.0",
-  "description": "sample deploy",
-  "main": "index.js",
-  "scripts": {
-    "start": "node bootstrap.js"
-  },
-  "author": "me",
-  "license": "ISC",
-  "dependencies": {
-    "express": "^4.13.3",
-    "pm2": "^0.15.10"
-  }
+    "name": "sample-deploy",
+    "version": "1.0.0",
+    "description": "sample deploy",
+    "main": "index.js",
+    "scripts": {
+      "start": "node bootstrap.js",
+      "pre-push-script": "./gitPrePush.sh"
+    },
+    "author": "me",
+    "license": "ISC",
+    "dependencies": {
+        "express": "^4.13.3",
+        "pm2": "^0.15.10"
+    },
+    "devDependencies": {
+        "pre-push": "^0.1.1"
+    },
+
+    "pre-push": {
+        "run": ["pre-push-script"]
+    }
+
 }
