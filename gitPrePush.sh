@@ -38,9 +38,15 @@ function parse_git_hash() {
   git rev-parse --short HEAD 2> /dev/null | sed "s/\(.*\)/@\1/"
 }
 
+function parse_commit_message() {
+    git log -1 HEAD --pretty=format:%s 2> /dev/null
+}
+
 # DEMO
 GIT_BRANCH=$(parse_git_branch)$(parse_git_hash)
+GIT_COMMIT_MESSAGE=$(parse_commit_message)
 echo ${GIT_BRANCH}
+echo ${GIT_COMMIT_MESSAGE}
 
 # z40=0000000000000000000000000000000000000000
 #
