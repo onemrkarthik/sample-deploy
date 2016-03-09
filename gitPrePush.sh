@@ -66,12 +66,13 @@ commit=grep 'Reviewed By' $GIT_COMMIT_MESSAGE 2> /dev/null
 echo $commit
 
 # Check for WIP commit
-# 		commit=`git rev-list -n 1 --grep '^WIP' "$range"`
-# 		if [ -n "$commit" ]
-# 		then
-# 			echo >&2 "Found WIP commit in $local_ref, not pushing"
-# 			exit 1
-# 		fi
+if [ -n "$commit" ]
+then
+	exit 0
+else
+    echo >&2 "No reviewer found for commit $GIT_BRANCH, not pushing"
+    exit 1
+fi
 
 # z40=0000000000000000000000000000000000000000
 #
