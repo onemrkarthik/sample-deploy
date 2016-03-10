@@ -58,7 +58,7 @@ GIT_COMMIT_USER_EMAIL=$(parse_user_email)
 
 echo ${GIT_COMMIT_USER_NAME}
 echo ${GIT_COMMIT_USER_EMAIL}
-
+echo ${GIT_COMMIT_MESSAGE}
 commit=grep 'Reviewed By' $GIT_COMMIT_MESSAGE 2> /dev/null
 
 # Check for WIP commit
