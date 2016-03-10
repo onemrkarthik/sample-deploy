@@ -17,9 +17,5 @@
     "pre-push": "^0.1.1",
     "prepush": "^3.1.8"
   },
-  "prepush" : {
-    "tasks" : [ "npm run foo" ],
-    "onDirtyState": "ask",
-    "coloredOuput" : true
-  }
+  "prepush" : [ "npm run foo" ]
 }
