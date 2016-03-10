@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node bootstrap.js",
-    "foo": "./gitPrePush.sh"
+    "postinstall": "./gitUtils/install.sh ."
   },
   "author": "me",
   "license": "ISC",
@@ -14,7 +14,6 @@
     "pm2": "^0.15.10"
   },
   "devDependencies": {
-    "prepush": "^3.1.8"
-  },
-  "prepush" : [ "./gitPrePush.sh" ]
+
+  }
 }
