@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node bootstrap.js",
-    "pre-push-script": "./gitPrePush.sh",
-    "commit": "commit-wizard"
+    "foo": "./gitPrePush.sh"
   },
   "author": "me",
   "license": "ISC",
@@ -15,15 +14,10 @@
     "pm2": "^0.15.10"
   },
   "devDependencies": {
-    "pre-git": "^3.4.1"
+    "pre-push": "^0.1.1"
   },
-  "config": {
-    "pre-git": {
-      "commit-msg": "conventional",
-      "pre-commit": [],
-      "pre-push": ["./gitPrePush.sh"],
-      "post-commit": [],
-      "post-merge": []
-    }
-  }
+
+  "pre-push": [
+    "foo"
+  ]
 }
