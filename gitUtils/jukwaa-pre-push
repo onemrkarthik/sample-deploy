@@ -59,7 +59,28 @@ GIT_COMMIT_USER_EMAIL=$(parse_user_email)
 echo ${GIT_COMMIT_USER_NAME}
 echo ${GIT_COMMIT_USER_EMAIL}
 echo ${GIT_COMMIT_MESSAGE}
+
 commit=grep 'Reviewed By' $GIT_COMMIT_MESSAGE 2> /dev/null
+
+reviewers_re="Reviewers:(.+)Reviewed By:(.+)"
+
+SANITIZED_COMMIT_MESSAGE=$(echo $GIT_COMMIT_MESSAGE | tr -d '[:space:]' 2> /dev/null)
+
+if [[ $GIT_COMMIT_MESSAGE =~ $reviewers_re ]]
+then
+    LIST_OF_REVIEWERS=${BASH_REMATCH[1]}
+    REVIEWED_BY=${BASH_REMATCH[2]}
+
+    if [[ -n "${REVIEWED_BY}" && -n "${LIST_OF_REVIEWERS}" && "${LIST_OF_REVIEWERS}" == *"${REVIEWED_BY}"* ]]
+    then
+        echo "Valid reviewers"
+        echo "List of reviewers : ${LIST_OF_REVIEWERS}"
+        echo "Reviewer is : ${REVIEWED_BY}"
+        exit 1;
+    else
+        exit 1
+    fi
+fi
 
 # Check for WIP commit
 if [ -n "$commit" ]
@@ -67,7 +88,7 @@ then
 	exit 0
 else
     echo >&2 "$GIT_COMMIT_USER_NAME, looks like no one reviewed the change on $GIT_BRANCH. Code can only be pushed if it's been reviewed by atleast 1 person :)"
-    exit 2
+    exit 1
 fi
 
 # z40=0000000000000000000000000000000000000000
