@@ -14,10 +14,12 @@
     "pm2": "^0.15.10"
   },
   "devDependencies": {
-    "pre-push": "^0.1.1"
+    "pre-push": "^0.1.1",
+    "prepush": "^3.1.8"
   },
-
-  "pre-push": [
-    "foo"
-  ]
+  "prepush" : {
+    "tasks" : [ "npm run foo" ],
+    "onDirtyState": "ask",
+    "coloredOuput" : true
+  }
 }
