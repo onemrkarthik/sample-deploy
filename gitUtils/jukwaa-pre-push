@@ -22,7 +22,6 @@
 remote="$1"
 url="$2"
 
-
 # checks if branch has something pending
 function parse_git_dirty() {
   git diff --quiet --ignore-submodules HEAD 2>/dev/null; [ $? -eq 1 ] && echo "*"
@@ -50,73 +49,30 @@ function parse_user_email() {
     git log -1 --format=format:%ae HEAD 2> /dev/null
 }
 
-# DEMO
-GIT_BRANCH=$(parse_git_branch)$(parse_git_hash)
-GIT_COMMIT_MESSAGE=$(parse_commit_message)
-GIT_COMMIT_USER_NAME=$(parse_user_name)
-GIT_COMMIT_USER_EMAIL=$(parse_user_email)
+function sanitize_commit_message() {
+    echo $git_commit_message | tr -d '[:space:]' 2> /dev/null
+}
 
-echo ${GIT_COMMIT_USER_NAME}
-echo ${GIT_COMMIT_USER_EMAIL}
-echo ${GIT_COMMIT_MESSAGE}
+git_branch=$(parse_git_branch)$(parse_git_hash)
+git_commit_message=$(parse_commit_message)
+git_commit_user_name=$(parse_user_name)
+git_commit_user_email=$(parse_user_email)
+sanitized_commit_message=$(echo $git_commit_message | tr -d '[:space:]' 2> /dev/null)
+REVIEW_RE="Reviewers:(.+)Reviewed By:(.+)"
 
-commit=grep 'Reviewed By' $GIT_COMMIT_MESSAGE 2> /dev/null
-
-reviewers_re="Reviewers:(.+)Reviewed By:(.+)"
-
-SANITIZED_COMMIT_MESSAGE=$(echo $GIT_COMMIT_MESSAGE | tr -d '[:space:]' 2> /dev/null)
-
-if [[ $GIT_COMMIT_MESSAGE =~ $reviewers_re ]]
+if [[ $sanitized_commit_message =~ $REVIEW_RE ]]
 then
-    LIST_OF_REVIEWERS=${BASH_REMATCH[1]}
-    REVIEWED_BY=${BASH_REMATCH[2]}
+    list_of_reviewers=${BASH_REMATCH[1]}
+    reviewed_by=${BASH_REMATCH[2]}
 
-    if [[ -n "${REVIEWED_BY}" && -n "${LIST_OF_REVIEWERS}" && "${LIST_OF_REVIEWERS}" == *"${REVIEWED_BY}"* ]]
+    if [[ -n "${reviewed_by}" && -n "${list_of_reviewers}" && "${list_of_reviewers}" == *"${reviewed_by}"* ]]
     then
-        echo "Valid reviewers"
-        echo "List of reviewers : ${LIST_OF_REVIEWERS}"
-        echo "Reviewer is : ${REVIEWED_BY}"
+        echo >&2 "Great job $git_commit_user_name. Your CR was accepted by $reviewed_by and it can now be pushed to $git_branch :) "
         exit 1;
     else
+        echo >2 "Boooo! $git_commit_user_name, looks like no one reviewed the change on $git_branch. Code can only be pushed if it's been reviewed by atleast 1 person :)"
         exit 1
     fi
 fi
-
-# Check for WIP commit
-if [ -n "$commit" ]
-then
-	exit 0
-else
-    echo >&2 "$GIT_COMMIT_USER_NAME, looks like no one reviewed the change on $GIT_BRANCH. Code can only be pushed if it's been reviewed by atleast 1 person :)"
-    exit 1
-fi
-
-# z40=0000000000000000000000000000000000000000
-#
-# while read local_ref local_sha remote_ref remote_sha
-# do
-# 	if [ "$local_sha" = $z40 ]
-# 	then
-# 		# Handle delete
-# 		:
-# 	else
-# 		if [ "$remote_sha" = $z40 ]
-# 		then
-# 			# New branch, examine all commits
-# 			range="$local_sha"
-# 		else
-# 			# Update to existing branch, examine new commits
-# 			range="$remote_sha..$local_sha"
-# 		fi
-#
-# 		# Check for WIP commit
-# 		commit=`git rev-list -n 1 --grep '^WIP' "$range"`
-# 		if [ -n "$commit" ]
-# 		then
-# 			echo >&2 "Found WIP commit in $local_ref, not pushing"
-# 			exit 1
-# 		fi
-# 	fi
-# done
 
 exit 0
