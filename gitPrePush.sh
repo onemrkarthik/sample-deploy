@@ -67,7 +67,7 @@ then
 	exit 0
 else
     echo >&2 "No reviewer found for commit $GIT_BRANCH, $GIT_COMMIT_USER_NAME! Not pushing !"
-    exit 1
+    exit 2
 fi
 
 # z40=0000000000000000000000000000000000000000
