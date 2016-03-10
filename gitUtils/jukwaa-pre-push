@@ -60,7 +60,9 @@ git_commit_user_email=$(parse_user_email)
 sanitized_commit_message=$(echo $git_commit_message | tr -d '[:space:]' 2> /dev/null)
 REVIEW_RE="Reviewers:(.+)Reviewed By:(.+)"
 
-if [[ $sanitized_commit_message =~ $REVIEW_RE ]]
+echo $sanitized_commit_message
+echo $git_commit_message
+if [[ $git_commit_message =~ $REVIEW_RE ]]
 then
     list_of_reviewers=${BASH_REMATCH[1]}
     reviewed_by=${BASH_REMATCH[2]}
@@ -75,4 +77,4 @@ then
     fi
 fi
 
-exit 0
+exit 1
